@@ -1,0 +1,132 @@
+[dominik@framework-laptop aufgabe2]$ make clean
+rm -f bubblesort bubblesort.o
+[dominik@framework-laptop aufgabe2]$ make bubblesort
+gcc -g -Wall -Wextra -Werror -Wvla -std=c11 -pedantic    bubblesort.c   -o bubblesort
+[dominik@framework-laptop aufgabe2]$ ./bubblesort 10
+Bitte 10 ganze Zahlen eingeben: 43 23 534 455 4 4 333 876879 12
+331489370
+Sortierte Zahlenfolge: 
+4
+4
+12
+23
+43
+333
+455
+534
+876879
+331489370
+[dominik@framework-laptop aufgabe2]$ valgrind ./bubblesort 10
+==10818== Memcheck, a memory error detector
+==10818== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==10818== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==10818== Command: ./bubblesort 10
+==10818== 
+Bitte 10 ganze Zahlen eingeben: 12 23 32 87 6 657 23
+1744549688
+490255574
+1483645262
+Sortierte Zahlenfolge: 
+6
+12
+23
+23
+32
+87
+657
+490255574
+1483645262
+1744549688
+==10818== 
+==10818== HEAP SUMMARY:
+==10818==     in use at exit: 0 bytes in 0 blocks
+==10818==   total heap usage: 3 allocs, 3 frees, 2,088 bytes allocated
+==10818== 
+==10818== All heap blocks were freed -- no leaks are possible
+==10818== 
+==10818== For lists of detected and suppressed errors, rerun with: -s
+==10818== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+[dominik@framework-laptop aufgabe2]$ make cppcheck
+cppcheck --enable=warning,style --std=c11 bubblesort.c
+Checking bubblesort.c ...
+[dominik@framework-laptop aufgabe2]$ ./bubblesort 1000 < /dev/null | tail -1000 > out.txt
+[dominik@framework-laptop aufgabe2]$ sort -n out.txt | diff - out.txt
+[dominik@framework-laptop aufgabe2]$ time java Bubblesort 1000 < /dev/null > /dev/null
+
+real	0m0,216s
+user	0m0,156s
+sys	0m0,057s
+[dominik@framework-laptop aufgabe2]$ time ./bubblesort 1000 < /dev/null > /dev/null
+
+real	0m0,007s
+user	0m0,005s
+sys	0m0,001s
+[dominik@framework-laptop aufgabe2]$ time java Bubblesort 10000 < /dev/null > /dev/null
+
+real	0m0,366s
+user	0m0,575s
+sys	0m0,049s
+[dominik@framework-laptop aufgabe2]$ time ./bubblesort 10000 < /dev/null > /dev/null
+
+real	0m0,327s
+user	0m0,325s
+sys	0m0,002s
+[dominik@framework-laptop aufgabe2]$ time java Bubblesort 100000 < /dev/null > /dev/null
+
+real	0m31,157s
+user	0m31,335s
+sys	0m0,085s
+[dominik@framework-laptop aufgabe2]$ time ./bubblesort 100000 < /dev/null > /dev/null
+
+real	0m54,619s
+user	0m54,436s
+sys	0m0,008s
+[dominik@framework-laptop aufgabe2]$ make "CC=gcc -g -O2" clean all
+rm -f bubblesort bubblesort.o
+gcc -g -O2 -Wall -Wextra -Werror -Wvla -std=c11 -pedantic    bubblesort.c   -o bubblesort
+[dominik@framework-laptop aufgabe2]$ time java Bubblesort 1000 < /dev/null > /dev/null
+
+real	0m0,145s
+user	0m0,163s
+sys	0m0,031s
+[dominik@framework-laptop aufgabe2]$ time ./bubblesort 1000 < /dev/null > /dev/null
+
+real	0m0,004s
+user	0m0,004s
+sys	0m0,001s
+[dominik@framework-laptop aufgabe2]$ time java Bubblesort 10000 < /dev/null > /dev/null
+
+real	0m0,369s
+user	0m0,491s
+sys	0m0,045s
+[dominik@framework-laptop aufgabe2]$ time ./bubblesort 10000 < /dev/null > /dev/null
+
+real	0m0,174s
+user	0m0,171s
+sys	0m0,002s
+[dominik@framework-laptop aufgabe2]$ time java Bubblesort 100000 < /dev/null > /dev/null
+
+real	0m31,091s
+user	0m31,162s
+sys	0m0,109s
+[dominik@framework-laptop aufgabe2]$ time ./bubblesort 100000 < /dev/null > /dev/null
+
+real	0m27,216s
+user	0m27,119s
+sys	0m0,004s
+[dominik@framework-laptop aufgabe2]$ 
+
+Fragen: 
+
+Was gibt die obige Befehlsfolge im Terminal aus, wenn Ihr bubblesort richtig sortiert hat?
+Der Befehl gibt nichts aus, weil keine Unterschiede zwischen der alten out.txt und der sortierten out.txt besteht.
+
+Wächst die Ausführungszeit tatsächlich quadratisch mit der Array-Größe?
+Nein, die Ausführungszeit wächst nicht quadratisch mit der Array-Größe. Bei einer Erhöhung der Arraygröße um den Faktor 10 steigt die Zeit nicht mit dem Faktor 100.
+
+Ist das Java-Programm oder das C-Programm schneller? Können Sie sich den Unterschied erklären?
+Das Java-Programm ist im unoptimierten Fall zunächst langsamer, wird dann aber deutlich schneller bei steigender Array-Größe. Im optimierten Fall ist das C-Programm jedes mal schneller. Diese Unterschiede liegen vor allem an den verschiedenen Kompilern und den Optimierungsstufen, die diese Kompiler benutzen.
+
+Ist das optimierte Programm erkennbar schneller?
+Die Zeit des optimierten C-Programms halbiert sich grob überschlagen im Vergleich zum unoptimierten C-Programm.
+
