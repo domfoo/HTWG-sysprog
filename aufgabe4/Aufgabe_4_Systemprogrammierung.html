@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<!-- saved from url=(0069)http://www-home.htwg-konstanz.de/~drachen/sypr/Aufgabe4/Aufgabe4.html -->
+<html lang="de"><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<style type="text/css">
+body { font-family:helvetica,arial,sans-serif; line-height:1.4; }
+a { text-decoration:none; color:#059c8c; font-weight:600; }
+pre { background-color:#d9e5ec; width:90%; }
+code { font-size:larger; white-space:nowrap; }
+h1 { font-size:x-large; }
+h2 { font-size:large; }
+h3 { font-size:medium; }
+</style>
+<title>Aufgabe 4 Systemprogrammierung</title>
+</head>
+<body>
+
+<h1>Systemprogrammierung - AIN/2<br>
+<span style="font-size:smaller">Sommersemester 2022</span></h1>
+<hr>
+
+<h2>
+Übungsaufgabe 4:
+C Aufzählungen, Strukturen, Varianten, Übersetzungseinheiten
+</h2>
+<p>
+<b>Abgabe bis 19./20.5.2022</b></p>
+
+<h3>Vorbereitung</h3>
+<p>
+Speichern Sie die Dateien
+<a href="http://www-home.htwg-konstanz.de/~drachen/sypr/Aufgabe4/Makefile">&#10549;&nbsp;Makefile</a>,
+<a href="http://www-home.htwg-konstanz.de/~drachen/sypr/Aufgabe4/notenspiegel.c">&#10549;&nbsp;notenspiegel.c</a>,
+<a href="http://www-home.htwg-konstanz.de/~drachen/sypr/Aufgabe4/notenspiegel-in.txt">&#10549;&nbsp;notenspiegel-in.txt</a> und
+<a href="http://www-home.htwg-konstanz.de/~drachen/sypr/Aufgabe4/notenspiegel-out.txt">&#10549;&nbsp;notenspiegel-out.txt</a>
+in Ihr Arbeitsverzeichnis von Aufgabe&nbsp;4.
+</p>
+
+<br>
+
+<h3>Programmierung</h3>
+<p>
+Das vorgegebene Programm <code>notenspiegel.c</code> erstellt einen
+Notenspiegel. Ergänzen Sie die fehlenden Übersetzungseinheiten
+wie folgt:</p>
+<p>
+Erstellen Sie eine Übersetzungseinheit <code>spo3_ain2</code>
+mit der folgenden Schnittstelle:</p>
+<ul>
+<li>
+einer Funktion <code>bool ist_spo_note(int)</code>,
+die <code>true</code> liefert, wenn die als Argument übergebene Note 
+laut SPO der HTWG zulässig ist, sonst <code>false</code>
+(zulässig sind die Noten 10, 13, 17, 20, 23, 27, 30, 33, 37, 40, 50)</li>
+<li>
+einer Funktion <code>bool ist_ain2_modul(const char *)</code>,
+die <code>true</code> liefert, wenn es das als Argument übergebene Modul 
+laut SPO für AIN/2 gibt, sonst <code>false</code></li>
+<li>
+zwei symbolischen Namen <code>SPO_BESTE_NOTE</code> und 
+<code>SPO_SCHLECHTESTE_NOTE</code> für die beste bzw. 
+schlechteste Note</li>
+<li>
+einem symbolischen Namen <code>AIN2_ANZAHL_LEISTUNGEN</code> für die 
+Anzahl der laut SPO in AIN/2 zu erbringenden Leistungen (Scheine und
+benotete Prüfungen)</li>
+</ul>
+<p>
+Erstellen Sie eine Übersetzungseinheit <code>leistung</code>
+mit der folgenden Schnittstelle:</p>
+<ul>
+<li>
+einem Typ <code>struct leistung</code> mit eingebetteter 
+anonymer <code>union</code> und zugeordnetem <code>enum</code>-Typ 
+<code>leistungsart</code> (siehe Vorlage in den Vorlesungsunterlagen).<p></p>
+<p>
+Die Struktur soll ein Array von Zeichen für den Modulnamen enthalten.
+Sie dürfen davon ausgehen, dass Modulnamen aus maximal 20 Zeichen bestehen.
+Definieren Sie die Array-Größe als symbolische Konstante.
+Mit der zugeordneten <code>enum</code> unterscheiden Sie zwischen den 
+Leistungsarten <code>benotet</code> und <code>unbenotet</code>.
+Mit der eingebetteten <code>union</code> speichern Sie bei benoteten 
+Leistungen eine ganzzahlige Note, bei unbenoteten Leistungen eine 
+Beurteilung in Form eines Einzelzeichens <code>'B'</code> für bestanden 
+bzw. <code>'N'</code> für nicht bestanden,.</p>
+<p>
+Deklarieren Sie einen Aliasnamen <code>leistung</code> für Ihren 
+<code>struct</code>-Typ.</p>
+<p>
+Wieviel Byte Speicher benötigt eine Variabel vom Typ <code>leistung</code>?</p>
+</li>
+<li>
+einer Funktion <code>leistung_einlesen</code>.
+<p>
+Die Funktion soll von der Standardeingabe eine Leistung
+einlesen und in die per Ausgabeparameter übergebene Struktur speichern
+(für Beispieleingaben siehe die Datei <code>notenspiegel-in.txt</code>).
+Beim Einlesen mit <code>scanf</code> können Sie zwischen benoteten und
+unbenoteten Fächern unterscheiden, indem Sie erst mit <code>%d</code>
+eine ganze Zahl zu lesen versuchen, und wenn dies nicht gelingt,
+mit <code>%c</code> ein Einzelzeichen lesen.
+Die Funktion <code>scanf</code> liefert als Rückgabewert,
+wie viele Werte erfolgreich gelesen werden konnten
+<em>(siehe auch <code>&nbsp;man&nbsp;3&nbsp;scanf</code>)</em>.</p>
+<p>
+Im Modulnamen sollen nach dem Einlesen alle Unterstriche _ durch
+Leerzeichen ersetzt werden. Die Unterstriche sollen dazu in einer Schleife
+mit der Bibliotheksfunktion <code>strchr</code> gesucht werden
+<em>(siehe auch <code>&nbsp;man&nbsp;3&nbsp;strchr</code>)</em>.</p>
+<p>
+Der Rückgabewert von <code>leistung_einlesen</code> soll 
+<code>false</code> sein, wenn das Lesen nicht gelungen ist, 
+sonst <code>true</code>.</p>
+</li>
+<li>
+einer Funktion <code>ausgeben</code>.
+<p>
+Die Funktion soll die per Eingabeparameter übergebene Leistung
+im folgenden Format auf der Standardausgabe ausgeben:
+in der ersten Spalte steht linksbündig mit Feldbreite 20 der Modulname,
+bei ungültigem Modulenamen mit dem Zusatz <code>Fehler: </code>.
+Bei einem gültigem Modulenamen folgt dann nach einem Tabulatorzeichen 
+ein <code>L</code> bei benoteten bzw. ein <code>S</code> bei unbenoteten Leistungen
+und nach einem weiteren Tabulatorzeichen schließlich die Beurteilung 
+(siehe zum Ausgabeformat auch die Datei <code>notenspiegel-out.txt</code>).</p>
+<p>
+Verwenden Sie für die linksbündige Ausgabe mit fester Spaltenbreite 
+des Modulnamens das Format <code>"%-*s"</code>. Argumente für dieses Format
+sind die Spaltenbreite als ganze Zahl, gefolgt vom String
+<em>(siehe auch <code>&nbsp;man&nbsp;3&nbsp;printf</code>).</em></p>
+<p>
+Realisieren Sie die Ausgabe der Note einer benoteten Leistung mit einer privaten 
+Hilfsfunktion <code>static void ausgeben_benotet(int note)</code>.
+Beurteilungen zwischen 10 und 40 sowie die 50 werden als 1,0 bis 4,0 und 5,0 
+ausgegeben. Sonstige ganze Zahlen werden mit dem Zusatz <code>Fehler: </code> 
+so ausgegeben, wie sie eingegeben wurden.</p>
+<p>
+Realisieren Sie die Ausgabe der Beurteilung einer unbenoteten Leistung mit einer 
+privaten Hilfsfunktion <code>static void ausgeben_unbenotet(char status)</code>.
+Die Beurteilung <code>'B'</code> wird als <code>bestanden</code> und die 
+Beurteilung <code>'N'</code> als <code>nicht bestanden</code> ausgegeben.
+Sonstige Beurteilungen werden mit dem Zusatz <code>Fehler: </code> als 
+Einzelzeichen ausgegeben.</p>
+<p></p>
+</li>
+</ul>
+
+<br>
+
+<h3>Test und Qualitätssicherung</h3>
+<p>
+Verwenden Sie zum Testen die folgenden Befehle und probieren Sie verschiedene Eingaben,
+insbesondere auch <code>hallo</code> als einzige Eingabe:</p>
+<pre>  make notenspiegel
+  make cppcheck
+  ./notenspiegel
+  valgrind ./notenspiegel
+</pre>
+<!--
+  ddd notenspiegel&amp;
+-->
+<p>
+Führen Sie auch die folgenden automatisierten Tests aus:</p>
+<pre>  valgrind ./notenspiegel &lt; /dev/null
+  valgrind ./notenspiegel &lt; notenspiegel-in.txt
+  ./notenspiegel &lt; notenspiegel-in.txt &gt; out.txt
+  diff -Z notenspiegel-out.txt out.txt
+</pre>
+<ul>
+<li>
+<code>valgrind</code> darf keine Fehler und <code>diff</code> keine Unterschiede melden.</li>
+<li>
+<code>cppcheck</code> sollte keine Probleme melden.</li>
+</ul>
+<p>
+Bessern Sie gegebenenfalls nach.</p>
+
+<br>
+
+<h3>Abgabe</h3>
+<p>
+Führen Sie Ihr Programm mit den automatisierten Tests vor.</p>
+<!--
+<p>
+Verpacken Sie die eigenen Dateien Ihrer L&ouml;sung in ein Archiv:</p>
+<pre>
+    tar cvzf aufgabe4.tar.gz leistung.[ch] spo3_ain2.[ch]
+</pre>
+<p>
+Laden Sie das Archiv dann in Moodle hoch (siehe dort).</p>
+-->
+<p>
+<em>
+Hinweis:<br>
+Der Compiler <code>gcc</code> darf für Ihr Programm 
+keine Fehler oder Warnungen mehr ausgeben.<br>
+Ihr Programm muss außerdem ordentlich formatierte sein.
+Bessern Sie die Formatierung gegebenenfalls mit <code>astyle</code> nach:<br>
+<code>astyle -p -H --style=ansi *.[ch]</code></em></p>
+
+<br>
+
+<h3>Freiwillige Zusatzaufgabe <em>(1 Bonuspunkt)</em></h3>
+
+<p>
+cppcheck verlangt, dass Sie bei <code>scanf</code> mit dem Format
+<code>%s</code> die maximale Anzahl zu lesender Zeichen festlegen, 
+in <code>leistung.c</code> also sinnvollerweise <code>%20s</code>.
+Die <code>20</code> kommt dann zweimal im Programm vor: 
+in der Deklaration der symbolischen Konstanten in <code>leistung.h</code> 
+und in der Formatspezifikation in <code>leistung.c</code>. 
+Bei Programmänderungen wird leicht eine der beiden Stellen 
+übersehen, was dann zu Laufzeitfehlern führt.</p>
+<p>
+Das Problem lässt sich mit der sogenannten Stringification des 
+C-Präprozessors lösen. Ersetzen Sie in der Formatspezifikation 
+von <code>scanf</code> die <code>20</code> durch den stringifizierten Wert 
+Ihrer symbolischen Konstanten. Testen Sie das geänderte Programm per 
+<code>valgrind</code> mit zu langen Modulnamen.</p>
+<p><em>
+Hinweis: Googlen Sie "C macro stringification".</em></p>
+
+<br>
+
+<hr>
+<address style="font-size:smaller; text-align:left; float:left;">
+<a href="http://www-home.htwg-konstanz.de/~drachen/">Prof. Dr. H. Drachenfels</a>
+<br>
+<a href="https://www.htwg-konstanz.de/">Hochschule Konstanz</a> -
+<a href="https://www.htwg-konstanz.de/info/impressum">Impressum</a> -
+<a href="https://www.htwg-konstanz.de/info/datenschutzerklaerung/">Datenschutzerklärung</a>
+</address>
+<em style="font-size:smaller; text-align:right; float:right;">
+Letzte Änderung: 23.2.2022
+</em>
+
+
+
+
+</body></html>
