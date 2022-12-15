@@ -1,0 +1,76 @@
+[dominik@framework-laptop aufgabe7]$ make clean
+rm -f filesize filecopy filesize.o filecopy.o
+[dominik@framework-laptop aufgabe7]$ make filesize 
+gcc -g -Wall -Wextra -Werror -Wvla -std=c11 -pedantic filesize.c -o filesize
+[dominik@framework-laptop aufgabe7]$ make filecopy 
+gcc -g -Wall -Wextra -Werror -Wvla -std=c11 -pedantic filecopy.c -o filecopy
+[dominik@framework-laptop aufgabe7]$ make cppcheck
+cppcheck --enable=warning,style --std=c11 filesize.c
+Checking filesize.c ...
+[dominik@framework-laptop aufgabe7]$ ./filesize xxx *
+Quelle xxx kann nicht geoeffnet werden (errno 2: Datei oder Verzeichnis nicht gefunden)
+filecopy.c: 1851 bytes
+filesize: 29416 bytes
+filesize.c: 1446 bytes
+Makefile: 434 bytes
+[dominik@framework-laptop aufgabe7]$ ls -l xxx *
+ls: Zugriff auf 'xxx' nicht möglich: Datei oder Verzeichnis nicht gefunden
+-rwxrwxr-x. 1 dominik dominik 29504  1. Jul 11:51 filecopy
+-rw-rw-r--. 1 dominik dominik  1851  1. Jul 11:40 filecopy.c
+-rw-rw-r--. 1 dominik dominik  1851  1. Jul 11:52 filecopy-kopie.c
+-rw-rw-r--. 1 dominik dominik  1446  1. Jul 10:03 filesize.c
+-rw-rw-r--. 1 dominik dominik   434 26. Jun 13:42 Makefile
+[dominik@framework-laptop aufgabe7]$ export LC_MESSAGES=C
+[dominik@framework-laptop aufgabe7]$ ./filesize xxx *
+Quelle xxx kann nicht geoeffnet werden (errno 2: No such file or directory)
+filecopy.c: 1851 bytes
+filesize: 29416 bytes
+filesize.c: 1446 bytes
+Makefile: 434 bytes
+[dominik@framework-laptop aufgabe7]$ ls -l xxx *
+ls: cannot access 'xxx': No such file or directory
+-rwxrwxr-x. 1 dominik dominik 29504  1. Jul 11:51 filecopy
+-rw-rw-r--. 1 dominik dominik  1851  1. Jul 11:40 filecopy.c
+-rw-rw-r--. 1 dominik dominik  1851  1. Jul 11:52 filecopy-kopie.c
+-rw-rw-r--. 1 dominik dominik  1446  1. Jul 10:03 filesize.c
+-rw-rw-r--. 1 dominik dominik   434 26. Jun 13:42 Makefile
+[dominik@framework-laptop aufgabe7]$ ./filecopy filecopy.c filecopy-kopie.c
+[dominik@framework-laptop aufgabe7]$ diff filecopy.c filecopy-kopie.c
+[dominik@framework-laptop aufgabe7]$ cd
+[dominik@framework-laptop ~]$ mkdir tmp
+[dominik@framework-laptop ~]$ cd tmp/
+[dominik@framework-laptop tmp]$ ls -l
+total 12
+-rw-rw-r--. 1 dominik dominik 1851  1. Jul 12:04 filecopy.c
+-rw-rw-r--. 1 dominik dominik 1446  1. Jul 12:04 filesize.c
+-rw-rw-r--. 1 dominik dominik  434  1. Jul 12:04 Makefile
+[dominik@framework-laptop tmp]$ make filecopy 
+gcc -g -Wall -Wextra -Werror -Wvla -std=c11 -pedantic filecopy.c -o filecopy
+[dominik@framework-laptop tmp]$ touch out.txt
+[dominik@framework-laptop tmp]$ ./filecopy text.txt out.txt 
+open(): Datei oder Verzeichnis nicht gefunden
+[dominik@framework-laptop tmp]$ chmod -r Makefile 
+[dominik@framework-laptop tmp]$ ./filecopy Makefile out.txt 
+open(): Keine Berechtigung
+[dominik@framework-laptop tmp]$ chmod +r Makefile 
+[dominik@framework-laptop tmp]$ ./filecopy Makefile out.txt 
+[dominik@framework-laptop tmp]$ ./filecopy filecopy.c out.txt 
+creat(): Keine Berechtigung
+
+
+
+
+Kommt für die nicht existierende Datei xxx die gleiche Fehlermeldung?
+Nein, filesize sagt, dass es die Datei nicht öffnen kann, ls sagt, es kann die Datei nicht finden.
+
+In welcher Sprache erscheint die Systemmeldung?
+In deutsch.
+
+In welcher Sprache erscheinen jetzt die Fehlermeldungen von filesize und ls?
+Der Fehler von ls ist englisch, bei filesize ist die Nachricht aus der Variablen errno englisch.
+
+Wie verhält sich filecopy,
+wenn die Quelldatei nicht existiert? => open(): Datei oder Verzeichnis nicht gefunden
+wenn Sie kein Leserecht auf der Quelldatei haben? => open(): Keine Berechtigung
+wenn die Zieldatei bereits existiert? => Keine Fehler
+wenn Sie kein Schreibrecht im Zielverzeichnis haben? => creat(): Keine Berechtigung
