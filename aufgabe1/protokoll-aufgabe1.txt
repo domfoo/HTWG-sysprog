@@ -1,0 +1,130 @@
+[dominik@framework-laptop aufgabe1]$ make clean
+rm -f aufgabe1 aufgabe1.o
+[dominik@framework-laptop aufgabe1]$ make aufgabe1
+gcc -g -fno-stack-protector -Wwrite-strings -Wall -Wextra -Werror -std=c11 -pedantic    aufgabe1.c   -o aufgabe1
+[dominik@framework-laptop aufgabe1]$ ./aufgabe1 
+ADDRESS 	| SIZE 	| TYPE 				| NAME 		| VALUE
+0x7ffd88c2930c 	| 4 	| int 				| zahl1 	| 128
+0x7ffd88c2930a 	| 2 	| short int 			| zahl2 	| 23
+0x7ffd88c29300 	| 8 	| long int 			| zahl3 	| 4532
+0x7ffd88c292f8 	| 8 	| long long int 		| zahl4 	| 2354
+0x7ffd88c292f4 	| 4 	| unsigned int 			| zahl5 	| 128
+0x7ffd88c292f2 	| 2 	| unsigned short int 		| zahl6 	| 23
+0x7ffd88c292e8 	| 8 	| unsigned long int 		| zahl7 	| 4532
+0x7ffd88c292e0 	| 8 	| unsigned long long int 	| zahl8 	| 2354
+0x7ffd88c292dc 	| 4 	| float 			| kommazahl1 	| 12.500000
+0x7ffd88c292d0 	| 8 	| double 			| kommazahl2 	| 15.600000
+0x7ffd88c292c0 	| 16 	| long double 			| kommazahl3 	| 2.5000007ffd88c292b0
+0x7ffd88c292bf 	| 1 	| char 				| zeichen 	| D
+0x7ffd88c292be 	| 1 	| signed char 			| byte1 	| -1
+0x7ffd88c292bd 	| 1 	| unsigned char 		| byte2 	| 0x4f
+0x7ffd88c292bc 	| 1 	| bool 				| ja 		| 1
+0x7ffd88c292b0 	| 8 	| const char* 			| s 		| 0x402010
+
+Dieses System nutzt das LP64-Datenmodell.
+[dominik@framework-laptop aufgabe1]$ ./aufgabe1 | sort
+
+0x7ffee873bdd0 	| 8 	| const char* 			| s 		| 0x402010
+0x7ffee873bddc 	| 1 	| bool 				| ja 		| 1
+0x7ffee873bddd 	| 1 	| unsigned char 		| byte2 	| 0x4f
+0x7ffee873bdde 	| 1 	| signed char 			| byte1 	| -1
+0x7ffee873bddf 	| 1 	| char 				| zeichen 	| D
+0x7ffee873bde0 	| 16 	| long double 			| kommazahl3 	| 2.500000
+0x7ffee873bdf0 	| 8 	| double 			| kommazahl2 	| 15.600000
+0x7ffee873bdfc 	| 4 	| float 			| kommazahl1 	| 12.500000
+0x7ffee873be00 	| 8 	| unsigned long long int 	| zahl8 	| 2354
+0x7ffee873be08 	| 8 	| unsigned long int 		| zahl7 	| 4532
+0x7ffee873be12 	| 2 	| unsigned short int 		| zahl6 	| 23
+0x7ffee873be14 	| 4 	| unsigned int 			| zahl5 	| 128
+0x7ffee873be18 	| 8 	| long long int 		| zahl4 	| 2354
+0x7ffee873be20 	| 8 	| long int 			| zahl3 	| 4532
+0x7ffee873be2a 	| 2 	| short int 			| zahl2 	| 23
+0x7ffee873be2c 	| 4 	| int 				| zahl1 	| 128
+ADDRESS 	| SIZE 	| TYPE 				| NAME 		| VALUE
+Dieses System nutzt das LP64-Datenmodell.
+[dominik@framework-laptop aufgabe1]$ ./aufgabe1 | sort -r
+Dieses System nutzt das LP64-Datenmodell.
+ADDRESS 	| SIZE 	| TYPE 				| NAME 		| VALUE
+0x7ffed5753c3c 	| 4 	| int 				| zahl1 	| 128
+0x7ffed5753c3a 	| 2 	| short int 			| zahl2 	| 23
+0x7ffed5753c30 	| 8 	| long int 			| zahl3 	| 4532
+0x7ffed5753c28 	| 8 	| long long int 		| zahl4 	| 2354
+0x7ffed5753c24 	| 4 	| unsigned int 			| zahl5 	| 128
+0x7ffed5753c22 	| 2 	| unsigned short int 		| zahl6 	| 23
+0x7ffed5753c18 	| 8 	| unsigned long int 		| zahl7 	| 4532
+0x7ffed5753c10 	| 8 	| unsigned long long int 	| zahl8 	| 2354
+0x7ffed5753c0c 	| 4 	| float 			| kommazahl1 	| 12.500000
+0x7ffed5753c00 	| 8 	| double 			| kommazahl2 	| 15.600000
+0x7ffed5753bf0 	| 16 	| long double 			| kommazahl3 	| 2.500000
+0x7ffed5753bef 	| 1 	| char 				| zeichen 	| D
+0x7ffed5753bee 	| 1 	| signed char 			| byte1 	| -1
+0x7ffed5753bed 	| 1 	| unsigned char 		| byte2 	| 0x4f
+0x7ffed5753bec 	| 1 	| bool 				| ja 		| 1
+0x7ffed5753be0 	| 8 	| const char* 			| s 		| 0x402010
+
+[dominik@framework-laptop aufgabe1]$ make cppcheck
+cppcheck --enable=warning,style --std=c11 aufgabe1.c
+Checking aufgabe1.c ...
+aufgabe1.c:85:27: warning: Logical conjunction always evaluates to false: sizeint == 4 && sizelong == 4. [incorrectLogicOperator]
+    else if (sizeint == 4 && sizelong == 4 && sizell == 8 && sizeptr == 8)
+                          ^
+aufgabe1.c:77:18: style: Condition 'sizelong==4' is always false [knownConditionTrueFalse]
+    if (sizelong == 4 && sizeint == 4 && sizeptr == 4)
+                 ^
+aufgabe1.c:73:27: note: Assignment 'sizelong=sizeof(long)', assigned value is 8
+    int sizelong = sizeof (long int);
+                          ^
+aufgabe1.c:77:18: note: Condition 'sizelong==4' is always false
+    if (sizelong == 4 && sizeint == 4 && sizeptr == 4)
+                 ^
+aufgabe1.c:81:23: style: Condition 'sizelong==8' is always true [knownConditionTrueFalse]
+    else if (sizelong == 8 && sizeint == 4 && sizeptr == 8)
+                      ^
+aufgabe1.c:73:27: note: Assignment 'sizelong=sizeof(long)', assigned value is 8
+    int sizelong = sizeof (long int);
+                          ^
+aufgabe1.c:81:23: note: Condition 'sizelong==8' is always true
+    else if (sizelong == 8 && sizeint == 4 && sizeptr == 8)
+                      ^
+aufgabe1.c:81:39: style: Condition 'sizeint==4' is always true [knownConditionTrueFalse]
+    else if (sizelong == 8 && sizeint == 4 && sizeptr == 8)
+                                      ^
+aufgabe1.c:72:26: note: Assignment 'sizeint=sizeof(int)', assigned value is 4
+    int sizeint = sizeof (int);
+                         ^
+aufgabe1.c:81:39: note: Condition 'sizeint==4' is always true
+    else if (sizelong == 8 && sizeint == 4 && sizeptr == 8)
+                                      ^
+aufgabe1.c:81:55: style: Condition 'sizeptr==8' is always true [knownConditionTrueFalse]
+    else if (sizelong == 8 && sizeint == 4 && sizeptr == 8)
+                                                      ^
+aufgabe1.c:75:26: note: Assignment 'sizeptr=sizeof(char*)', assigned value is 8
+    int sizeptr = sizeof (char*);
+                         ^
+aufgabe1.c:81:55: note: Condition 'sizeptr==8' is always true
+    else if (sizelong == 8 && sizeint == 4 && sizeptr == 8)
+                                                      ^
+[dominik@framework-laptop aufgabe1]$ 
+
+
+FRAGEN:
+Sind die Variablen in der Reihenfolge ihrer Definition im Hauptspeicher abgelegt?
+
+Die Variablen werden in der Reihenfolge ihrer Definition angelegt, dabei wird die Addresse immer kleiner, weil der Stack von den großen zu den kleinen Addressen wächst.
+
+
+Liegen die Variablen direkt hintereinander oder gibt es Lücken? Falls es Lücken gibt, wo liegen sie? Können Sie sich erklären, warum es eventuell Lücken gibt?
+
+Es gibt immer dann Lücken in der Speicherbelegung, wenn der von einer Variable benutzte Speicher nicht durch 8 (die Anzahl der Bytes eines Zeigers) teilbar ist.
+Dies ist zum Beispiel zwischen dem Zeiger und der booleschen Variable der Fall.
+
+
+Wie viel Speicher belegen die Variablen insgesamt, also inklusive eventueller Lücken?
+
+Dieses Programm benutzt 96 Bytes im Speicher, da 7ffd88c2930c - 7ffd88c292b0 + 4 = 60
+
+
+Welche Problemen lassen sich nicht beheben?
+
+Die angezeigten Probleme lassen sich nicht beheben, da die jeweiligen Größen der Variablen dem Kompiler zwar bekannt sind und sich deswegen aus seiner Sicht nicht ändern. Jedoch können die Größen auf anderen Systemen abweichen, weshalb eine Evaluierung hier notwendig ist.
+
